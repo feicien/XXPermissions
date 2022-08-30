@@ -7,7 +7,7 @@ android {
         minSdkVersion 14
     }
 
-    // 使用 JDK 1.8
+    // 使用 JDK 11
     compileOptions {
         targetCompatibility JavaVersion.VERSION_11
         sourceCompatibility JavaVersion.VERSION_11
@@ -17,11 +17,15 @@ android {
         abortOnError false
     }
 
-    android.libraryVariants.all { variant ->
-        // aar 输出文件名配置
-        variant.outputs.all { output ->
-            outputFileName = "${rootProject.name}-${android.defaultConfig.versionName}.aar"
-        }
+//    android.libraryVariants.all { variant ->
+//        // aar 输出文件名配置
+//        variant.outputs.all { output ->
+//            outputFileName = "${rootProject.name}-${android.defaultConfig.versionName}.aar"
+//        }
+//    }
+    //库项目不生成 BuildConfig
+    buildFeatures {
+        buildConfig = false
     }
 
     packagingOptions {
@@ -35,41 +39,41 @@ android {
     }
 }
 
-afterEvaluate {
-    // 排除 BuildConfig.class 和 R.class
-    generateReleaseBuildConfig.enabled = false
-    generateDebugBuildConfig.enabled = false
-    generateReleaseResValues.enabled = false
-    generateDebugResValues.enabled = false
-}
+//afterEvaluate {
+//    // 排除 BuildConfig.class 和 R.class
+//    generateReleaseBuildConfig.enabled = false
+//    generateDebugBuildConfig.enabled = false
+//    generateReleaseResValues.enabled = false
+//    generateDebugResValues.enabled = false
+//}
 
 dependencies {
     // noinspection GradleCompatible
     implementation 'androidx.fragment:fragment:1.5.2'
 }
 
-tasks.withType(Javadoc) {
-    options.addStringOption('Xdoclint:none', '-quiet')
-    options.addStringOption('encoding', 'UTF-8')
-    options.addStringOption('charSet', 'UTF-8')
-}
-
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
-
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
+//tasks.withType(Javadoc) {
+//    options.addStringOption('Xdoclint:none', '-quiet')
+//    options.addStringOption('encoding', 'UTF-8')
+//    options.addStringOption('charSet', 'UTF-8')
+//}
+//
+//task sourcesJar(type: Jar) {
+//    from android.sourceSets.main.java.srcDirs
+//    classifier = 'sources'
+//}
+//
+//task javadoc(type: Javadoc) {
+//    source = android.sourceSets.main.java.srcDirs
+//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//}
+//
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
+//
+//artifacts {
+//    archives javadocJar
+//    archives sourcesJar
+//}
