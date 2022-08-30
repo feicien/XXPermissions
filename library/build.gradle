@@ -5,17 +5,15 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        versionCode 1600
-        versionName "16.0"
     }
 
     // 使用 JDK 1.8
     compileOptions {
-        targetCompatibility JavaVersion.VERSION_1_8
-        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_11
     }
 
-    lintOptions {
+    lint {
         abortOnError false
     }
 
@@ -28,7 +26,12 @@ android {
 
     packagingOptions {
         // 剔除这个包下的所有文件（不会移除签名信息）
-        exclude 'META-INF/*******'
+        jniLibs {
+            excludes += ['META-INF/*******']
+        }
+        resources {
+            excludes += ['META-INF/*******']
+        }
     }
 }
 
@@ -42,7 +45,7 @@ afterEvaluate {
 
 dependencies {
     // noinspection GradleCompatible
-    implementation 'com.android.support:support-fragment:24.2.0'
+    implementation 'androidx.fragment:fragment:1.5.2'
 }
 
 tasks.withType(Javadoc) {
